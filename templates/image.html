@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Render Image</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        #img-zoomer-box {
+            max-width: 500px;
+            height: auto;
+            position: relative;
+            margin: 10px auto;
+        }
+
+        #img-1 {
+            width: 100%;
+            height: auto;
+        }
+
+        #img-zoomer-box:hover, #img-zoomer-box:active {
+            cursor: zoom-in;
+            display: block;
+        }
+
+        #img-zoomer-box:hover #img-2, #img-zoomer-box:active #img-2 {
+            opacity: 1;
+        }
+
+        #img-2 {
+            width: 340px;
+            height: 340px;
+            background: url('{{file_url}}') no-repeat #FFF;
+            box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            position: absolute;
+            opacity: 0;
+            border: 4px solid whitesmoke;
+            z-index: 99;
+            border-radius: 100%;
+            display: block;
+            transition: opacity .2s;
+        }
+    </style>
+</head>
+<body>
+<header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+            <a href="/upload" class="mr-5 hover:text-white">Upload</a>
+            <a href="/web" class="mr-5 hover:text-white">Web Camera</a>
+            <!--      <a class="mr-5 hover:text-white">Third Link</a>-->
+            <a href="/mobile" class="hover:text-white">Mobile Camera</a>
+        </nav>
+        <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-white lg:items-center lg:justify-center mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl xl:block lg:hidden">Tailblocks</span>
+        </a>
+        <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+            <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+                Log Out
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                     class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+<div class="min-h-screen flex flex-col">
+    <section class="flex-grow text-gray-400 body-font bg-gray-900">
+        <div id="img-zoomer-box" class="overflow-hidden">
+            <img src="{{file_url}}" id="img-1" alt="Zoom Image on Mouseover"/>
+            <div id="img-2"></div>
+        </div>
+    </section>
+</div>
+
+<footer class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+        <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">Tailblocks</span>
+        </a>
+
+        <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+      <a class="text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none"
+                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+        </svg>
+      </a>
+    </span>
+    </div>
+</footer>
+<script>
+    let zoomer = function () {
+        document.querySelector('#img-zoomer-box')
+            .addEventListener('mousemove', function (e) {
+
+                let original = document.querySelector('#img-1'),
+                    magnified = document.querySelector('#img-2'),
+                    style = magnified.style,
+                    x = e.pageX - this.offsetLeft,
+                    y = e.pageY - this.offsetTop,
+                    imgWidth = original.offsetWidth,
+                    imgHeight = original.offsetHeight,
+                    xperc = ((x / imgWidth) * 100),
+                    yperc = ((y / imgHeight) * 100);
+
+                //lets user scroll past right edge of image
+                if (x > (.01 * imgWidth)) {
+                    xperc += (.15 * xperc);
+                }
+                ;
+
+                //lets user scroll past bottom edge of image
+                if (y >= (.01 * imgHeight)) {
+                    yperc += (.15 * yperc);
+                }
+                ;
+
+                style.backgroundPositionX = (xperc - 9) + '%';
+                style.backgroundPositionY = (yperc - 9) + '%';
+
+                style.left = (x - 180) + 'px';
+                style.top = (y - 180) + 'px';
+
+            }, false);
+    }();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+    <title>Mobile Capture</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+            <a href="/upload" class="mr-5 hover:text-white">Upload</a>
+            <a href="/web" class="mr-5 hover:text-white">Web Camera</a>
+            <!--      <a class="mr-5 hover:text-white">Third Link</a>-->
+            <a href="/mobile" class="hover:text-white">Mobile Camera</a>
+        </nav>
+        <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-white lg:items-center lg:justify-center mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl xl:block lg:hidden">Tailblocks</span>
+        </a>
+        <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+            <button onclick="window.location.href = '/logout';"
+                    class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+                Log Out
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                     class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+<div class="min-h-screen flex flex-col">
+    <section class="flex-grow text-gray-400 bg-gray-800 body-font">
+        <div class="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
+            <div class="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">Capture From Mobile</h1>
+
+                <form id="photo-form" method="POST" enctype="multipart/form-data">
+                    <label class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
+                        <input id="input" class="input hidden" type="file" accept="image/*" capture="environment"/>
+                        <span id="button" class="button">Capture image</span>
+                    </label>
+                </form>
+                <img id="blob-frame" frameborder="0"
+                     class="pt-5 lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded">
+
+                <button id="upload-button"
+                        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg hidden">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </section>
+
+</div>
+<footer class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+        <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">Tailblocks</span>
+        </a>
+        <!--        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© 2020-->
+        <!--            Tailblocks —-->
+        <!--            <a class="text-gray-500 ml-1" target="_blank"-->
+        <!--               rel="noopener noreferrer">PC</a>-->
+        <!--        </p>-->
+        <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+      <a class="text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none"
+                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+        </svg>
+      </a>
+    </span>
+    </div>
+</footer>
+
+<script>
+    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        alert("For Laptop/PC Use Web Capture Page.");
+    }
+
+    // Function to convert a data URL to a Blob
+    function dataURLtoBlob(dataURL) {
+        const parts = dataURL.split(',');
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const rawLength = raw.length;
+        const uint8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uint8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uint8Array], {type: contentType});
+    }
+
+    const input = document.querySelector('#input');
+    let blob;
+    var formData = new FormData();
+    const uploadButton = document.getElementById('upload-button');
+
+    uploadButton.addEventListener('click', function () {
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => {
+                // Handle the response as needed
+                console.log('Photo submitted successfully.');
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            }).catch((error) => {
+            console.error('Error submitting photo:', error);
+        });
+    });
+    if ('capture' in input) {
+        input.addEventListener('change', function (e) {
+            var files = input.files;
+            if (files.length === 1) {
+                uploadButton.classList.remove('hidden');
+                var file = files[0];
+                // using XHR/fetch API we are able to send to backend file as blob
+                // using FileReader class we are able to read file as base 64
+
+                // Get the selected file
+                const selectedFile = file;
+
+                // Check if a file was selected
+                if (selectedFile) {
+                    // Create a FileReader to read the file's contents
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        // The result of the FileReader is the file's data as a data URL
+                        const dataURL = event.target.result;
+                        // Convert the data URL to a Blob
+                        blob = dataURLtoBlob(dataURL);
+
+                        // You can now use the 'blob' object as needed
+
+                        var blob_url = URL.createObjectURL(blob);
+                        var blob_iframe = document.querySelector('#blob-frame');
+                        blob_iframe.src = blob_url;
+                        formData = new FormData();
+                        formData.append('photo', blob); // Convert canvas image to data URL
+
+
+                    };
+
+                    // Read the file as a data URL
+                    reader.readAsDataURL(selectedFile);
+                }
+
+
+            } else {
+                alert('Image not captured!');
+            }
+        });
+    } else {
+        var button = document.querySelector('#button');
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            alert('Input capture mode is not supported! Try to use mobile device or other web browser.');
+        });
+    }
+
+</script>
+</body>
+</html>
