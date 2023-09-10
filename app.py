@@ -31,12 +31,12 @@ app.static_folder = 'static'
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
 
-GOOGLE_CLIENT_ID = "321951942693-g4533h1425tukpu8k4t3bceqf2ebuqgb.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "321951942693-i43902ba8tgupahdp6o3gmvbjoo9edmt.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, 'auth.json')
 flow = Flow.from_client_secrets_file(client_secrets_file=client_secrets_file,
                                      scopes=["https://www.googleapis.com/auth/userinfo.profile",
                                              "https://www.googleapis.com/auth/userinfo.email", "openid"],
-                                     redirect_uri="http://localhost:5000/callback")
+                                     redirect_uri="https://inspektlabs.onrender.com/callback")
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
