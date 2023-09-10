@@ -23,7 +23,7 @@ limiter = Limiter(
     app=app,
     storage_uri="memory://",
 )
-delay = '500/minute'
+delay = '5/minute'
 
 app.config['SECRET_KEY'] = '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'
 app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
