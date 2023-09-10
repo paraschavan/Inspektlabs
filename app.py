@@ -25,11 +25,11 @@ limiter = Limiter(
 )
 delay = '5/minute'
 
-app.config['SECRET_KEY'] = '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'
+app.config['SECRET_KEY'] = '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14'
 app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
 app.static_folder = 'static'
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
 
 GOOGLE_CLIENT_ID = "321951942693-i43902ba8tgupahdp6o3gmvbjoo9edmt.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, 'auth.json')
@@ -162,5 +162,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(debug=True,host='192.168.1.13',port=8000)
+    app.run()
