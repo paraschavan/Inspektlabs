@@ -1,9 +1,12 @@
 import os
 import pathlib
 from uuid import uuid4
+import re
 
+import psycopg2
+from psycopg2 import Error
 from flask import Flask, render_template, send_from_directory, url_for, redirect, request, session, abort
-from flask_uploads import UploadSet, IMAGES, configure_uploads
+from flask_uploads import UploadSet, IMAGES, configure_uploads, TEXT
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
@@ -17,6 +20,8 @@ import google.auth.transport.requests
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
+# Assignment 1
+
 app = Flask(__name__)
 limiter = Limiter(
     get_remote_address,
@@ -27,6 +32,8 @@ delay = '5/minute'
 
 app.config['SECRET_KEY'] = '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14'
 app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+app.config['UPLOADED_TEXT_DEST'] = 'uploads'
+
 app.static_folder = 'static'
 
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
@@ -159,6 +166,121 @@ def logout():
 @app.route('/')
 def index():
     return 'Index <a href="/login"><button>Login</button></a>'
+
+
+# Assignment 2
+host, database, user, password = os.environ['db'].split('|')
+kwargs = {'host': host,
+          'database': database,
+          'user': user,
+          'password': password}
+
+text_uploads = UploadSet('text', TEXT)
+configure_uploads(app, text_uploads)
+
+
+def get_db_connection():
+    conn = psycopg2.connect(**kwargs)
+    return conn
+
+
+def insertDB(data_to_insert):
+    try:
+        # Connect to the PostgreSQL database
+        connection = get_db_connection()
+
+        # Create a cursor object to interact with the database
+        cursor = connection.cursor()
+
+        # Define the SQL query to insert data into the "log" table
+        insert_query = """INSERT INTO log (
+            ip, user_identity, user_auth, timestamp, method, url, protocol, status, size, referrer, user_agent, other_info
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        );"""
+
+        # Loop through the list of data tuples and insert each set of data
+        for data in data_to_insert:
+            cursor.execute(insert_query, data)
+
+        # Commit the transaction
+        connection.commit()
+
+        print("Data inserted successfully!")
+
+    except Error as e:
+        print("Error:", e)
+
+    finally:
+        # Close the cursor and connection
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+class TextUploadForm(FlaskForm):
+    text = FileField(
+        validators=[
+            FileAllowed(text_uploads, 'Only Text File Is Allowed!'),
+            FileRequired('File Field Should Not Be Empty!')
+        ]
+    )
+    submit = SubmitField('Upload')
+
+
+@app.route('/log', methods=['GET', 'POST'])
+def upload_log():
+    form = TextUploadForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            file = form.text.data
+            if file:
+                # Optional Parameters -> Identity, User, Size of Response, Referrer, User-Agent, Other Info
+                pattern = r'(?P<ip>\d+\.\d+\.\d+\.\d+)(?: (?P<identity>\S+))?(?: (?P<user>\S+))? \[(?P<timestamp>.*?)\] "(?P<method>\w+) (?P<url>.*?) (?P<protocol>HTTP/\d+\.\d+)" (?P<status>\d+)(?: (?P<size>\d+))?(?: "(?P<referrer>.*?)")?(?: "(?P<user_agent>.*?)")?(?: "(?P<other_info>.*?)")?'
+                data = []
+                try:
+                    def read_file_line_by_line(file):
+                        for line in file:
+                            # Process each line here
+                            yield line.decode('utf-8')  # Decode if needed (adjust the encoding)
+
+                    # Use the generator function to process the file
+                    for line in read_file_line_by_line(file):
+                        # Process each line here
+                        match = re.search(pattern, line.strip())
+                        if match:
+                            data.append((match.group('ip'), match.group('identity'), match.group('user'),
+                                         match.group('timestamp')
+                                         , match.group('method'), match.group('url'), match.group('protocol'),
+                                         int(match.group('status')), match.group('size'),
+                                         match.group('referrer'), match.group('user_agent'), match.group('other_info')))
+                            # print("IP Address:", match.group('ip'))
+                            # print("Identity:", match.group('identity'))
+                            # print("User:", match.group('user'))
+                            # print("Timestamp:", match.group('timestamp'))
+                            # print("HTTP Method:", match.group('method'))
+                            # print("Request URL:", match.group('url'))
+                            # print("HTTP Protocol:", match.group('protocol'))
+                            # print("Response Status Code:", match.group('status'))
+                            # print("Size of Response:", match.group('size'))
+                            # print("Referrer:", match.group('referrer'))
+                            # print("User-Agent:", match.group('user_agent'))
+                            # print("Other Info:", match.group('other_info'))
+                            # print('Valid Data')
+                        else:
+                            pass
+                            # print("Invalid Data.")
+                            # print(f'{line}')
+
+                except Exception as e:
+                    # Handle exceptions that may occur during file processing
+                    return f"<h1>An error occurred: {str(e)}</h1>"
+        insertDB(data)
+        return render_template('logView.html', data=data)
+
+    else:
+        return render_template('logUpload.html', form=form)
 
 
 if __name__ == '__main__':

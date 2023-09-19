@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Log View</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+
+        </nav>
+        <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-white lg:items-center lg:justify-center mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl xl:block lg:hidden">Tailblocks</span>
+        </a>
+        <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+        </div>
+    </div>
+</header>
+<div class="min-h-screen flex flex-col">
+    <section class="flex-grow text-gray-400 bg-gray-900 body-font">
+        <link
+                href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+                rel="stylesheet">
+        <div class="flex items-center justify-center">
+            <div class="overflow-auto lg:overflow-visible w-full">
+                <table class="table text-gray-400 border-separate space-y-6 text-sm w-full px-3">
+                    <thead class="bg-gray-800 text-gray-500">
+                    <tr class="text-white">
+                        <th class="p-3">IP Address</th>
+                        <th class="p-3 text-left">Timestamp</th>
+                        <th class="p-3 text-left">HTTP</th>
+                        <th class="p-3 text-left">Status Code</th>
+                        <th class="p-3 w-1/2">Other Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for log in data %}
+                    <tr class="bg-gray-800">
+                        <td class="p-3">
+                            <div class="flex align-items-center">
+                                <div class="ml-3 text-gray-300 font-bold">
+                                    <div>IP Address: <div class="font-thin">{{log[0]}}</div></div>
+                                    <div>Identity: <div class="font-thin">{{log[1]}}</div></div>
+                                    <div>User: <div class="font-thin">{{log[2]}}</div></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-3 text-gray-300 font-bold">
+                            {{log[3]}}
+                        </td>
+                        <td class="p-3 text-gray-300 font-bold">
+                            <div>HTTP Method: <div class="font-thin">{{log[4]}}</div></div>
+                            <div>Request URL: <div class="font-thin">{{log[5]}}</div></div>
+                            <div>HTTP Protocol: <div class="font-thin">{{log[6]}}</div></div>
+                        </td>
+                        <td class="p-3 text-gray-300 font-bold">
+                            <span class="{% if log[7]>=200 and log[7]<300 %}bg-green-400{% elif log[7]>=300 and log[7]<400 %}bg-yellow-400{% elif log[7]>=400 and log[7]<600 %}bg-red-400{%else%}bg-blue-400{%endif%} text-gray-50 rounded-md px-2">{{log[7]}}</span>
+                        </td>
+                        <td class="p-3 text-gray-300 font-bold">
+                            <div>Size of Response: <div class="font-thin">{{log[8]}}</div></div>
+                            <div>Referrer: <div class="font-thin">{{log[9]}}</div></div>
+                            <div>User-Agent: <div class="font-thin">{{log[10]}}</div></div>
+                            <div>Other Info: <div class="font-thin">{{log[11]}}</div></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<footer class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+        <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                 viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">Tailblocks</span>
+        </a>
+        <!--        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© 2020-->
+        <!--            Tailblocks —-->
+        <!--            <a class="text-gray-500 ml-1" target="_blank"-->
+        <!--               rel="noopener noreferrer">PC</a>-->
+        <!--        </p>-->
+        <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+      <a class="text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+             viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
+             class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none"
+                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+        </svg>
+      </a>
+    </span>
+    </div>
+</footer>
+<style>
+    .table {
+        border-spacing: 0 15px;
+    }
+
+    i {
+        font-size: 1rem !important;
+    }
+
+    .table tr {
+        border-radius: 20px;
+    }
+
+    tr td:nth-child(n+5),
+    tr th:nth-child(n+5) {
+        border-radius: 0 .625rem .625rem 0;
+    }
+
+    tr td:nth-child(1),
+    tr th:nth-child(1) {
+        border-radius: .625rem 0 0 .625rem;
+    }
+</style>
+</body>
+</html>
