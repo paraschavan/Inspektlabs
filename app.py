@@ -278,7 +278,7 @@ def upload_log():
                 except Exception as e:
                     # Handle exceptions that may occur during file processing
                     return f"<h1>An error occurred: {str(e)}</h1>"
-        # insertDB(data)
+        insertDB(data)
         return render_template('logView.html', data=data)
 
     else:
