@@ -201,6 +201,8 @@ def insertDB(data_to_insert):
 
         # Loop through the list of data tuples and insert each set of data
         for data in data_to_insert:
+            if data[7] == 200:
+                continue
             cursor.execute(insert_query, data)
 
         # Commit the transaction
@@ -276,7 +278,7 @@ def upload_log():
                 except Exception as e:
                     # Handle exceptions that may occur during file processing
                     return f"<h1>An error occurred: {str(e)}</h1>"
-        insertDB(data)
+        # insertDB(data)
         return render_template('logView.html', data=data)
 
     else:
